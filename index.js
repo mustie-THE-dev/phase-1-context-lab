@@ -1,5 +1,72 @@
 /* Your Code Here */
 
+function createEmployeeRecord  (employee) {
+    return {
+      firstName: employee[0],
+      familyName: employee[1],
+      title: employee[2],
+      payPerHour: employee[3],
+      timeInEvents: [],
+      timeOutEvents: [],
+    };
+  };
+  
+  function createEmployeeRecords(array){
+      
+      return array.map((records) =>{
+          return  createEmployeeRecord(records)
+      })
+  }
+  
+  
+  function getHour (dateTime) {
+    return parseInt(dateTime.match(/\d{4}$/)[0]);
+  };
+  
+   function getDate (dateTime) {
+    return dateTime.match(/\d{4}-\d{2}-\d{2}/)[0];
+  };
+  
+  function createTimeInEvent(timeIn) {
+    this.timeInEvents.push({
+      type: "TimeIn",
+      date: getDate(timeIn),
+      hour: getHour(timeIn),
+    });
+    return this;
+  }
+  
+  function createTimeOutEvent(timeOut) {
+    this.timeOutEvents.push({
+      type: "TimeOut",
+      date: getDate(timeOut),
+      hour: getHour(timeOut),
+    });
+    return this;
+  }
+  function hoursWorkedOnDate(dateGiven) {
+    let timeIn = this.timeInEvents.find(
+      (event) => event.date == dateGiven
+    );
+    let timeOut = this.timeOutEvents.find(
+      (event) => event.date == dateGiven
+    );
+    let totalTime = (timeOut.hour - timeIn.hour) / 100;
+    return totalTime;
+  }
+  function wagesEarnedOnDate(dateGiven) {
+    let hours = hoursWorkedOnDate.call(this, dateGiven);
+    return this.payPerHour * hours;
+  }
+  function findEmployeeByFirstName(employees, name) {    
+      return employees.find(employee => employee.firstName == name)
+  }
+  function calculatePayroll(empRecord) {
+    return empRecord.reduce((total, employee) => {
+      return total + allWagesFor.call(employee);
+    }, 0);
+  }
+
 /*
  We're giving you this function. Take a look at it, you might see some usage
  that's new and different. That's because we're avoiding a well-known, but
@@ -20,4 +87,3 @@ const allWagesFor = function () {
 
     return payable
 }
-
